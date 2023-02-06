@@ -1,125 +1,39 @@
-import React from "react";
-import FeedbackOptions from "./FeedbackOptions";
-import ValuesStat from "./ValuesStat.js";
-import './Statistics.css';
-import Section  from "./Section.jsx";
-import  Notification  from './Notification';
+import PropTypes from 'prop-types';
+import css from './Statistics.module.css';
 
+export const Statistics = ({
+  good = 0,
+  neutral = 0,
+  bad = 0,
+  total = 0,
+  positivePercentage = 0,
+}) => {
+  return (
+    <ul>
+      <li>
+        Good: <span>{good}</span>
+      </li>
+      <li>
+        Neutral: <span>{neutral}</span>
+      </li>
+      <li>
+        Bad: <span>{bad}</span>
+      </li>
 
-class Statistics extends React.Component {
+      <li>
+        Total: <span>{total}</span>
+      </li>
+      <li className={css.positive}>
+        Positive feedback: <span>{positivePercentage}%</span>
+      </li>
+    </ul>
+  );
+};
 
-    static defaultProps = {
-        initialGood: 0,
-        initialNeutral: 0,
-        initialBad: 0,
-        initialTotal: 0,
-        initialPositive: null
-    };
-
-    // static propTypes = {
-
-    // }
-
-    state = {
-        good: this.props.initialGood,
-        neutral: this.props.initialNeutral,
-        bad: this.props.initialNeutral,
-        // total: this.props.initialTotal,
-        // positive: this.props.initialPositive,
-
-        // visible: false
-    };
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//   show = () => {
-//     this.setState({visible: true});
-//   };
-
-//   hide = () => {
-//     this.setState({visible: false});
-//   };
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-countTotalFeedback = () =>
-    Object.values(this.state).reduce((acc, value) => acc + value, 0);
-
-countPositiveFeedbackPercentage = () => {
-    return this.countTotalFeedback()
-      ? ((this.state.good / this.countTotalFeedback()) * 100).toFixed(0)
-      : '0';
-  };
-
-
-
-// ============================================================
-handleIncrement = state => {
-    this.setState(prevState => ({ [state]: prevState[state] + 1 }));
-  };
-
-
-// handleIncrementGood = () => {
-//     this.setState((prevState) => {
-//      return {
-//         good: prevState.good + 1, 
-//      }               
-//     });
-    
-//  };
-       
-    
-
-    handleIncrementNeutral = () => {
-        this.setState((prevState) => {
-         return {
-            neutral: prevState.neutral + 1, 
-         }               
-        });
-        
-     };
-
-     handleIncrementBad = () => {
-        this.setState((prevState) => {
-         return {
-            bad: prevState.bad + 1, 
-         }               
-        });
-        
-     };
- 
-
-    render() {
-        return (
-            <div>
-                <h2>Please leave feedback</h2>
-            <FeedbackOptions options = {this.state} 
-                onHandleIncrement = {this.handleIncrement}
-            />
-                {/* <Controls
-                    onIncrementGood={this.handleIncrementGood}
-                    onIncrementNeutral={this.handleIncrementNeutral}
-                    onIncrementBad={this.handleIncrementBad }
-                    
-                /> */}
-                              
-              
-                <div>
-            
-                <Section title="Statistics">
-                {this.countTotalFeedback() !==0 ? (
-                    <ValuesStat
-                    good={this.state.good}
-                    neutral={this.state.neutral}
-                    bad={this.state.bad}
-                    total={this.countTotalFeedback()}
-                    positive={this.countPositiveFeedbackPercentage()}
-                    />
-                ) : (<Notification message= 'There is no feedback!'>      
-                </Notification>)}
-                </Section>
-               </div>
-            </div>
-        );
-    }
-}
-
-export default Statistics;
-
+Statistics.prototype = {
+  good: PropTypes.number,
+  neutral: PropTypes.number,
+  bad: PropTypes.number,
+  total: PropTypes.number,
+  positive: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};

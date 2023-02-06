@@ -1,7 +1,5 @@
-import React from "react";
-
 import PropTypes from 'prop-types';
-// import './Feedback.module.css';
+import './FeedbackOptions.module.css';
 
 export const FeedbackOptions = ({ options, onHandleIncrement }) => {
   const stateArr = Object.keys(options);
@@ -27,5 +25,3 @@ FeedbackOptions.propTypes = {
   options: PropTypes.object,
   onLeaveFeedback: PropTypes.func,
 };
-
-export default FeedbackOptions;
